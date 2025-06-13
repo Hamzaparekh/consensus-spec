@@ -1,0 +1,30 @@
+// Elastico Benchmark Flow
+digraph {
+	bgcolor=white fontname=Helvetica fontsize=12 rankdir=TB
+	A [label="for each payload size & iteration" shape=box]
+	B [label="Measure CPU before
+Start timer" shape=box]
+	C [label="Repeat 5×:
+runElasticoTransaction(size)" shape=box]
+	D [label="runElasticoTransaction():
+– NewIDProof
+– simulateCommitteePBFT()" shape=box]
+	E [label="simulateCommitteePBFT():
+3 PBFT phases
+(dummy compute + sleep 50ms)" shape=box]
+	F [label="Stop timer
+Measure CPU after & mem" shape=box]
+	G [label="Compute latency & log CSV row" shape=box]
+	H [label="More iterations?" shape=diamond]
+	I [label=End shape=oval]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	E -> C [label="next tx"]
+	C -> F [label="after 5 tx"]
+	F -> G
+	G -> H
+	H -> A [label=yes]
+	H -> I [label=no]
+}

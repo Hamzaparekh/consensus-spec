@@ -1,0 +1,25 @@
+// Ethereum Deneb Benchmark Flow
+digraph {
+	bgcolor=white fontname=Helvetica fontsize=12 rankdir=TB
+	A [label="Start: for each payload size & iteration" shape=box]
+	B [label="Generate 5 random payloads" shape=box]
+	C [label="Build empty block for slot+1
+Insert dummy BLS & KZG proofs" shape=box]
+	D [label="Record mem_before
+Start timer" shape=box]
+	E [label="spec.process_block(state, block)" shape=box]
+	F [label="Stop timer
+Record mem_after & CPU%" shape=box]
+	G [label="Compute latency & log CSV row" shape=box]
+	H [label="More iterations?" shape=diamond]
+	I [label=End shape=oval]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	E -> F
+	F -> G
+	G -> H
+	H -> A [label=yes]
+	H -> I [label=no]
+}

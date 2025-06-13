@@ -1,0 +1,35 @@
+// RapidChain Benchmark Flow
+digraph {
+	bgcolor=white fontname=Helvetica fontsize=12 rankdir=TB
+	A [label="Init: register & build RapidchainConsensus" shape=box]
+	B [label="for each payload size & round" shape=box]
+	C [label="Generate & concat 5 random chunks" shape=box]
+	D [label="Build block struct
+(Round, Issuer, Payload, PrevHash)" shape=box]
+	E [label="IsLeader?
+(Propose vs Decide)" shape=diamond]
+	F1 [label="Propose():
+– Emulate cost
+– Chunk & sign
+– PROPOSE vote" shape=box]
+	F2 [label="Decide():
+– Wait & participate
+– echo/accept votes" shape=box]
+	G [label="Measure latency, CPU%, mem
+Compute throughput" shape=box]
+	H [label="Advance prevHash & round" shape=box]
+	I [label="More rounds?" shape=diamond]
+	J [label=End shape=oval]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	E -> F1 [label=yes]
+	E -> F2 [label=no]
+	F1 -> G
+	F2 -> G
+	G -> H
+	H -> I
+	I -> B [label=yes]
+	I -> J [label=no]
+}
